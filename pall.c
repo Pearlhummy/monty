@@ -1,13 +1,20 @@
 #include "monty.h"
-
 /**
- * pall - prints the stack
- * @stack: stack given by main in start.c
- * @line_cnt: amount of lines
- *
- * Return: void
+ * m_pall - print the stack
+ * @head: doble pointer to head of d linked list
+ * @line_count: current line of monty file
+ * Return: returns void
  */
-void pall(stack_t **stack, unsigned int line_cnt __attribute__((unused)))
+void m_pall(stack_t **head, __attribute__((unused)) unsigned int line_count)
 {
-	print_stack(*stack);
+	stack_t *temp = *head;
+
+	if (*head && head)
+	{
+		while (temp)
+		{
+			printf("%d\n", temp->n);
+			temp = temp->next;
+		}
+	}
 }

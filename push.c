@@ -1,38 +1,48 @@
-#include <stdio.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
 #include "monty.h"
-
 /**
- * push - push element into the stack
- * @stack: stack given by main
- * @line_cnt: amount of lines
- *
- * Return: void
+ * check_digit - check if string is a number
+ * @param: param to push
+ * @line_count: current line number
+ * Return: number
  */
-void push(stack_t **stack, unsigned int line_cnt)
+int check_digit(char *param, unsigned int line_count)
 {
-	char *n = global.argument;
+	int num;
 
-	if ((is_digit(n)) == 0)
+	num = atoi(param);
+	if (num == 0 && strcmp(param, "0") != 0)
 	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_cnt);
+		dprintf(2, "L%u: usage: push integer\n", line_count);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
+	return (num);
+}
 
-	if (global.data_struct == 1)
+/**
+ * m_push - it pushes an element to the stack.
+ * @node: pointer to head
+ * @line_count: current line number
+ * Return: void function
+ */
+void m_push(stack_t **node, unsigned int line_count)
+{
+	int num;
+	char *param;
+
+	param = strtok(NULL, SEPARATORS);
+
+	if (!param)
 	{
-		if (!add_node(stack, atoi(global.argument)))
-		{
-			exit(EXIT_FAILURE);
-		}
+		dprintf(2, "L%u: usage: push integer\n", line_count);
+		free_all();
+		exit(EXIT_FAILURE);
 	}
-	else
+	num = check_digit(param, line_count);
+	if (!add_node(node, num))
 	{
-		if (!queue_node(stack, atoi(global.argument)))
-		{
-			exit(EXIT_FAILURE);
-		}
+		dprintf(2, "Error: malloc failed\n");
+		free_all();
+		exit(EXIT_FAILURE);
 	}
 }
